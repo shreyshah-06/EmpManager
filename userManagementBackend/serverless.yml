@@ -1,0 +1,56 @@
+service: userManagementBackend
+frameworkVersion: '3'
+
+custom:
+  tableName: 'users-table'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:ap-south-1:689530398664:table/userManagementBackend-dev-UsersTable-197IIIV4JN6KT"
+  environment:
+    USERS_TABLE: ${self:custom.tableName}
+
+functions:
+  api:
+    handler: index.handler
+    events:
+      - httpApi:
+          path: /users
+          method: post
+      - httpApi:
+          path: /users
+          method: get
+      - httpApi:
+          path: /users
+          method: delete
+      - httpApi:
+          path: /users
+          method: put
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: N
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
