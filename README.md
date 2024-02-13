@@ -11,7 +11,6 @@
 * AWS Lambda for function calls
 * API Gateway to make API which can be used easily by anyone on any platform (locally or any other)
 * DynamoDB to store the data of the employees securely and to easily perform operations over data.
-* SNS Service to notify when a new entry is added or removed.
   
 - ## Challenges Faced in making of the Project:
 - Integrating all the AWS Services to work in a smooth manner.
